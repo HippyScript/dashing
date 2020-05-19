@@ -1,5 +1,5 @@
 # Đashing
-([Screenshot](https://github.com/HippyScript/dashing/blob/master/dashing.png))
+![Screenshot](https://github.com/HippyScript/dashing/blob/master/dashing.png)
 
 A simple home server dashboard for keeping an eye on:
 - Mounted volumes
