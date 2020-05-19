@@ -3,6 +3,7 @@ var smb_results;
 var port_results;
 var ip_results;
 var ping_results;
+var li_open = "          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n";
 
 function get_mounts() {
     var result;
@@ -23,12 +24,15 @@ function display_mounts() {
             continue;
         }
         
-        $("#MountList").append("  <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n" + 
+        $("#MountList").append(li_open + 
                                 "  <h5 class='text-muted'>" + mount_results[key][0] + "</h5>\n" +
                                 "  <div>Mounted at <br>\n<a href='file:////" + mount_results[key][5] + 
                                 "' class='text-monospace text-primary'>" + mount_results[key][5] +
                                 "</a></div>\n" + "<div>" + mount_results[key][3] + "B of " + mount_results[key][1] + 
-                                "B free<br>" + mount_results[key][4] + " used</div>\n" +
+                                "B free<br>" + 
+                                "<div class='progress'>\n" + 
+                                "<div class='progress-bar progress-bar-striped bg-secondary' role='progressbar' aria-valuenow='" + mount_results[key][4] + 
+                                "' aria-valuemin='0' aria-valuemax='100'>" + mount_results[key][4] + "</div></div>\n" +
                                 "  </li>\n");
     }
     
@@ -51,7 +55,7 @@ function display_smb() {
             continue;
         }
 
-        $("#SMBList").append("          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n" +
+        $("#SMBList").append(li_open +
                              "          <h5 class='text-muted'>" + smb_results[key][0] + "</h5>\n" +
                              "          <div class='text-muted text-monospace'>" + smb_results[key][2] + "</div>" +
                              "          <div>Connected " + smb_results[key][3] + "</div>" + 
@@ -76,7 +80,7 @@ function display_open_ports() {
             continue;
         }
 
-        $("#PortList").append("          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n" +
+        $("#PortList").append(li_open +
                               "              <h5 class='text-muted'>" + port_results[key][5] + "</h5>\n" +
                               "              <div class='text-muted text-monospace'>Port " + port_results[key][port_results[key].length - 1] + "</div>\n" +
                               "          </li>\n");
