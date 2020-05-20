@@ -46,6 +46,20 @@
             $result = substr($result, 0, strpos($result, "ms") + 2);
             return $result;
         }
+        function get_docker_containers() : array {
+            if (shell_exec("which docker") != "") {
+                $result = array();
+                $docker_lines = explode("\n", shell_exec("sudo docker stats --no-stream"));
+                foreach ($docker_lines as $line) {
+                    $line_parts = preg_split('/  +/', $line);
+                    array_push($result, $line_parts);
+                }
+                return $result;
+            }
+            else {
+                return ["error" => "Docker not installed"];
+            }
+        }
 
 header('Content-Type: application/json');
 
@@ -68,6 +82,9 @@ header('Content-Type: application/json');
                 break;
             case 'get_google_ping':
                 $result_array = get_google_ping();
+                break;
+            case 'get_docker_containers':
+                $result_array = get_docker_containers();
                 break;
             default:
                $result_array['error'] = 'Function '.$_GET['fname'].' not found';

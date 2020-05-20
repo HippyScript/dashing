@@ -82,6 +82,17 @@
                         </ul>
                     </div>
                     </div>
+                    <div class="card m-2" id="DockerCard">
+                    <div class="card-body p-0">
+                        <h5 class="cart-title card-header m-0">
+                            <img class="img-fluid mr-4 mt-0" src="./res/feather/box.svg" alt="Docker">
+                            Docker
+                        </h5>
+                        <ul class="list-group list-group-horizontal flex-d flex-wrap" id="DockerList">
+                            Loading container list...
+                        </ul>
+                    </div>
+                    </div>
 
                 </div>
             </div>
@@ -100,11 +111,13 @@
                 get_open_ports();
                 get_public_ip();
                 get_google_ping();
+                get_docker_containers();
                 setInterval(get_mounts, 8000);
                 setInterval(get_smb_connections, 8000);
                 setInterval(get_open_ports, 8000);
                 setInterval(get_public_ip, 8000);
-                setInterval(get_google_ping, 8000);                
+                setInterval(get_google_ping, 8000);   
+                setInterval(get_docker_containers, 8000);
             });
         </script>
     </body>

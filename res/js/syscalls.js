@@ -3,6 +3,8 @@ var smb_results;
 var port_results;
 var ip_results;
 var ping_results;
+var docker_results;
+
 var li_open = "          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n";
 
 function get_mounts() {
@@ -112,4 +114,36 @@ function get_google_ping(){
 
 function display_google_ping(){
     $("#GooglePing").html(ping_results);
+}
+
+function get_docker_containers(){
+    var result;
+    $.get('./res/php/syscalls.php', { fname: 'get_docker_containers' }, function(data) {docker_results = data;})
+      .done(function(msg){ 
+        docker_results = msg;
+        display_docker_containers();
+        });    
+}
+
+function display_docker_containers(){
+    $("#DockerList").empty();
+    console.log(docker_results);
+    $("#DockerCard").show();
+    for (key of Object.keys(docker_results)){
+        
+        // Hide the entire card if the docker stats return an error
+        if(key == "error") {
+            $("#DockerCard").hide();
+            return;
+        }
+        
+        // Skip blank lines and the first header line of the results
+        if (docker_results[key] == "" || docker_results[key][0].indexOf("CONTAINER ID") != -1) {
+            continue;
+        }
+        else {
+            $("#DockerList").append(li_open + "              <div class='text-muted text-monospace'>" + docker_results[key][1] + "</div>\n          </li>\n");
+        }
+    }
+    
 }
