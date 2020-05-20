@@ -158,7 +158,11 @@ function display_docker_containers(){
         else {
             $("#DockerList").append(li_open + "              <div data-toggle='tooltip' title='CPU %: " + docker_results[key][2] +
                                                 "\nMemory Used: " + docker_results[key][4] + "\nContainer ID: " + docker_results[key][0] + "' " +
+<<<<<<< HEAD
                                                 "class='text-muted'>" + docker_results[key][1] + " \n<br>" + get_badge(docker_results[key]) + "</div>\n        </li>\n");
+=======
+                                                "class='text-muted'>" + docker_results[key][1] + "</div>\n          </li>\n");
+>>>>>>> origin/master
         }
     }
     
