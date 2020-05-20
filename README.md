@@ -6,6 +6,7 @@ A simple home server dashboard for keeping an eye on:
 - Samba connections
 - Open TCP ports
 - External IP address
+- Running docker containers
 
 ## External Resources
 - jQuery 3.5.1
