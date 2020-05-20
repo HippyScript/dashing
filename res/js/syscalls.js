@@ -127,10 +127,8 @@ function get_docker_containers(){
 
 function display_docker_containers(){
     $("#DockerList").empty();
-    console.log(docker_results);
     $("#DockerCard").show();
     for (key of Object.keys(docker_results)){
-        
         // Hide the entire card if the docker stats return an error
         if(key == "error") {
             $("#DockerCard").hide();
@@ -142,7 +140,9 @@ function display_docker_containers(){
             continue;
         }
         else {
-            $("#DockerList").append(li_open + "              <div class='text-muted text-monospace'>" + docker_results[key][1] + "</div>\n          </li>\n");
+            $("#DockerList").append(li_open + "              <div data-toggle='tooltip' title='CPU %: " + docker_results[key][2] +
+                                                "\nMemory Used: " + docker_results[key][4] + "\nContainer ID: " + docker_results[key][0] + "' " +
+                                                "class='text-muted'>" + docker_results[key][1] + "</div>\n          </li>\n");
         }
     }
     
