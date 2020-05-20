@@ -7,6 +7,22 @@ var docker_results;
 
 var li_open = "          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n";
 
+//Returns badge reflecting memory and CPU usage for a docker container
+function get_badge(docker_item){
+    if (parseFloat(docker_item[2]) < 50 && parseFloat(docker_item[4]) < 50) {
+        return "<span class='badge badge-pill badge-success'>✓</span>";
+    }
+    else if (parseFloat(docker_item[2]) < 75 && parseFloat(docker_item[4]) < 75){
+        return "<span class='badge badge-pill badge-warning'>!</span>";
+
+    }
+    else if (parseFloat(docker_item[2]) >= 75 || parseFloat(docker_item[4]) >= 75){
+        return "<span class='badge badge-pill badge-warning'>X</span>";
+    }
+    else {
+        return "<span class='badge badge-pill badge-info'>?</span>";
+    }
+}
 function get_mounts() {
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_mounts' }, function(data) {mount_results = data;})
@@ -127,10 +143,8 @@ function get_docker_containers(){
 
 function display_docker_containers(){
     $("#DockerList").empty();
-    console.log(docker_results);
     $("#DockerCard").show();
     for (key of Object.keys(docker_results)){
-        
         // Hide the entire card if the docker stats return an error
         if(key == "error") {
             $("#DockerCard").hide();
@@ -142,7 +156,9 @@ function display_docker_containers(){
             continue;
         }
         else {
-            $("#DockerList").append(li_open + "              <div class='text-muted text-monospace'>" + docker_results[key][1] + "</div>\n          </li>\n");
+            $("#DockerList").append(li_open + "              <div data-toggle='tooltip' title='CPU %: " + docker_results[key][2] +
+                                                "\nMemory Used: " + docker_results[key][4] + "\nContainer ID: " + docker_results[key][0] + "' " +
+                                                "class='text-muted'>" + docker_results[key][1] + " \n<br>" + get_badge(docker_results[key]) + "</div>\n        </li>\n");
         }
     }
     
