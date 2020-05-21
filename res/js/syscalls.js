@@ -21,7 +21,7 @@ function get_badge(docker_item){
 
     }
     else if (parseFloat(docker_item[2]) >= 75 || parseFloat(docker_item[4]) >= 75){
-        return "<span class='badge badge-pill badge-warning'>X</span>";
+        return "<span class='badge badge-pill badge-danger'>X</span>";
     }
     else {
         return "<span class='badge badge-pill badge-info'>?</span>";
