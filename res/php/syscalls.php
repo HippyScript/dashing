@@ -27,9 +27,13 @@
             $port_lines = explode("\n", shell_exec('sudo netstat -ltnp | grep -w LISTEN'));
             foreach ($port_lines as $line) {
                 $line_parts = preg_split('/  +/', $line);
-                $address_parts = explode(":", $line_parts[2]);
-                array_push($line_parts, end($address_parts));
-                array_push($result, $line_parts);
+                if(is_array($line_parts)) {
+                    if (count($line_parts) > 2) {
+                        $address_parts = explode(":", $line_parts[2]);
+                        array_push($line_parts, end($address_parts));
+                        array_push($result, $line_parts);
+                    }
+                }
             }
             
             return $result;
@@ -61,6 +65,10 @@
             }
         }
 
+        function get_menu() : array {
+            $menu_settings = parse_ini_file("../apps/apps.ini", TRUE);
+            return $menu_settings;
+        }
 header('Content-Type: application/json');
 
     $result_array = array();
@@ -86,12 +94,15 @@ header('Content-Type: application/json');
             case 'get_docker_containers':
                 $result_array = get_docker_containers();
                 break;
+            case 'get_app_menu':
+                $result_array = get_menu();
+                break;
             default:
                $result_array['error'] = 'Function '.$_GET['fname'].' not found';
                break;
-        }
+        } 
 
-
+    header('Content-Type: application/json');
     echo json_encode($result_array);
 
 

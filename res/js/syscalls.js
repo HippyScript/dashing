@@ -4,8 +4,12 @@ var port_results;
 var ip_results;
 var ping_results;
 var docker_results;
+var app_menu;
 
 var li_open = "          <li class='list-group-item m-1 p-3 bg-light rounded border border-secondary shadow-sm'>\n";
+var app_add_link =  "           <li data-toggle='tooltip' title='Add app' style='width: 40px; margin: auto;'>\n                <a href='#' class='appLink' id='AddApp' data-toggle='modal' data-target='#addAppDialog'><h3>+</h3></a>\n            </li>";
+
+
 
 //Returns badge reflecting memory and CPU usage for a docker container
 function get_badge(docker_item){
@@ -100,7 +104,7 @@ function display_open_ports() {
 
         $("#PortList").append(li_open +
                               "              <h5 class='text-muted'>" + port_results[key][5] + "</h5>\n" +
-                              "              <div class='text-muted text-monospace'>Port " + port_results[key][port_results[key].length - 1] + "</div>\n" +
+                              "              <div>Port " + port_results[key][port_results[key].length - 1] + "</div>\n" +
                               "          </li>\n");
     }
     filterList("#PortFilter", "#PortList");
@@ -161,5 +165,50 @@ function display_docker_containers(){
                                                 "class='text-muted'>" + docker_results[key][1] + " \n<br>" + get_badge(docker_results[key]) + "</div>\n        </li>\n");
         }
     }
+}
+
+function get_app_menu(){
+    var result;
+    $.get('./res/php/syscalls.php', { fname: 'get_app_menu' }, function(data) {app_menu = data;})
+      .done(function(msg){ 
+        app_menu = msg;
+        populate_menu();
+        });
+}
+
+function populate_menu() {
+    for (key of Object.keys(app_menu)) {
+        $(".main-menu").append("            <li data-toggle='tooltip' title='" + key + "'>\n<a href='" + app_menu[key]["url"] + "' class='appLink'>" + 
+                                            "<img class='img-fluid' src='./res/apps/" + app_menu[key]["icon"] + 
+                                            "' alt='ICON' height='40' width='40'><br></a>\n</li>");
+    }
+}
+
+function add_app() {
+    var frm_data = document.getElementById("fileUploadForm"); 
+    var whole_form = new FormData(frm_data);
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "res/php/upload.php",
+        data: new FormData(frm_data),
+        processData: false, 
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+                $("#result").text(data);
+                $("#addAppDialog").modal("hide");
+                $(".main-menu").empty();
+                $(".main-menu").append(app_add_link);
+                get_app_menu();
+            },
+        error: function (e) {
+                $("#result").text(e.responseText);
+                alert(e.responseText);
+                $("#btnSubmit").prop("disabled", false);
+            }
+        });
     
 }
