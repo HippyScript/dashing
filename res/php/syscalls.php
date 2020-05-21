@@ -69,6 +69,29 @@
             $menu_settings = parse_ini_file("../apps/apps.ini", TRUE);
             return $menu_settings;
         }
+
+        function remove_app($app_name) : bool {
+            $menu_settings = parse_ini_file("../apps/apps.ini", TRUE);
+
+            foreach (array_keys($menu_settings) as $cur_key) {
+                if ($cur_key == $app_name) {
+                    unset($menu_settings[$cur_key]);
+                }
+            }
+
+            $ini_file = fopen("../apps/apps.ini", "w");
+
+            foreach(array_keys($menu_settings) as $cur_key) {
+                fwrite($ini_file, "[" . $cur_key . "]" . "\n");
+
+                foreach(array_keys($menu_settings[$cur_key]) as $cur_setting){
+                    fwrite($ini_file, $cur_setting . " = " . $menu_settings[$cur_key][$cur_setting] . "\n");
+                }
+            }
+            fclose($ini_file);
+            return True;
+        }
+
 header('Content-Type: application/json');
 
     $result_array = array();
@@ -96,6 +119,9 @@ header('Content-Type: application/json');
                 break;
             case 'get_app_menu':
                 $result_array = get_menu();
+                break;
+            case 'remove_app':
+                $result_array = remove_app($_GET['app_name']);
                 break;
             default:
                $result_array['error'] = 'Function '.$_GET['fname'].' not found';

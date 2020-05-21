@@ -8,6 +8,9 @@
 		echo "File type must be gif, svg, jpeg or png; this file is " . $file_type;
 		die();
 	}
+	if(file_exists($uploaddir . $_FILES['appIcon']['name'])) {
+		unlink($uploaddir . $_FILES['appIcon']['name']);
+	}
 	if (move_uploaded_file($_FILES['appIcon']['tmp_name'], $uploaddir . $_FILES['appIcon']['name'])) {
 		$ini_file = fopen('../apps/apps.ini', 'a') or die("Unable to open file!");
 		fwrite($ini_file, "\n\n[" . $_POST["appName"] . "]\n");
