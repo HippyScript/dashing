@@ -17,3 +17,4 @@ A simple home server dashboard for keeping an eye on:
 - Netstat
 - Samba
 - Sudo access for the http server to netstat, smbstatus and df via the sudoers file
+- Write access for the http server to the res/apps directory
