@@ -16,5 +16,5 @@ A simple home server dashboard for keeping an eye on:
 - PHP 7
 - Netstat
 - Samba
-- Sudo access for the http server to netstat, smbstatus and df via the sudoers file
+- Sudo access for the http server to netstat, smbstatus, docker and df via the sudoers file
 - Write access for the http server to the res/apps directory
