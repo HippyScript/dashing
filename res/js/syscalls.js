@@ -27,6 +27,8 @@ function get_badge(docker_item){
         return "<span class='badge badge-pill badge-info'>?</span>";
     }
 }
+
+// Gets mounted volumes, calls display_mounts() when server sends response
 function get_mounts() {
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_mounts' }, function(data) {mount_results = data;})
@@ -61,6 +63,7 @@ function display_mounts() {
     filterList("#MountFilter", "#MountList");
 }
 
+// Gets smb connections, calls display_smb() when server sends response
 function get_smb_connections(){
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_smb_connections' }, function(data) {smb_results = data;})
@@ -85,7 +88,7 @@ function display_smb() {
     }
     filterList("#SMBFilter", "#SMBList");
 }
-
+// Gets open TCP ports, calls display_ports() when server sends response
 function get_open_ports(){
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_open_ports' }, function(data) {port_results = data;})
@@ -110,6 +113,7 @@ function display_open_ports() {
     filterList("#PortFilter", "#PortList");
 }
 
+// Gets public-facing IP, calls display_ip() when server sends response
 function get_public_ip(){
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_public_ip' }, function(data) {ip_results = data;})
@@ -123,6 +127,7 @@ function display_public_ip(){
     $("#PublicIP").html(ip_results);
 }
 
+// Gets time of ping to 8.8.8.8, calls display_ping() when server sends response
 function get_google_ping(){
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_google_ping' }, function(data) {ping_results = data;})
@@ -132,10 +137,12 @@ function get_google_ping(){
         });
 }
 
+
 function display_google_ping(){
     $("#GooglePing").html(ping_results);
 }
 
+// Gets list of docker containers, calls display_docker_containers() when server sends response
 function get_docker_containers(){
     var result;
     $.get('./res/php/syscalls.php', { fname: 'get_docker_containers' }, function(data) {docker_results = data;})
@@ -160,6 +167,9 @@ function display_docker_containers(){
             continue;
         }
         else {
+
+            // tooltip provides resource usage for each container;
+            // badge type depends on memory and cpu usage
             $("#DockerList").append(li_open + "              <div data-toggle='tooltip' title='CPU %: " + docker_results[key][2] +
                                                 "\nMemory Used: " + docker_results[key][4] + "\nContainer ID: " + docker_results[key][0] + "' " +
                                                 "class='text-muted'>" + docker_results[key][1] + " \n<br>" + get_badge(docker_results[key]) + "</div>\n        </li>\n");
@@ -192,11 +202,12 @@ function populate_remove_dialog() {
     $("#appRemoveMenu").empty();
     for (key of Object.keys(app_menu)) {
         $("#appRemoveMenu").append(
-            "<li>\n<a href='#' id='remove-" + key + "''>\n" +
-            "<img src='./res/apps/" + app_menu[key]["icon"] + "' width='17px' />" + key + "</a>\n</li>");
+            "<li class='m-2'>\n<a href='#' id='remove-" + key + "''>\n" +
+            "<img src='./res/apps/" + app_menu[key]["icon"] + "' width='25px' /> " + key + "</a>\n</li>");
     }
     $(document).on("click", "#appRemoveMenu li a", function(){$("#selectedApp").text($(this).text());});
 }
+
 function add_app() {
     var frm_data = document.getElementById("fileUploadForm"); 
     var whole_form = new FormData(frm_data);

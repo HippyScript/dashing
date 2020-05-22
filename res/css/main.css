@@ -1,0 +1,53 @@
+           .card-header{
+                cursor: pointer;
+            }
+            .floating-menu{
+                border-radius: 5px;
+                width: auto;
+                z-index:999;
+                padding-top:5px;
+                padding-bottom:5px;
+                left:0;
+                position:fixed;
+                display:inline-block;
+                top:50%;
+                box-shadow: 5px 5px 5px #ddd;
+                transform:translateY(-50%);
+            }
+
+            .main-menu {
+                margin:0;
+                padding-left:0;
+                list-style:none;
+            }
+
+            .main-menu li a {
+                display:block;
+                padding:10px;
+                color:#fff;
+                border-radius:5px;
+                position:relative;
+                -webkit-transition:none;
+                -o-transition:none;
+                transition:none;
+            }
+
+            .main-menu li a:hover {
+                background:rgba(244,244,244,.3);
+                text-decoration: none;
+            }
+
+            .menu-bg {
+                position:absolute;
+                background-color: rgb(100, 100, 100);
+                width:100%;
+                height:100%;
+                border-radius:5px;
+                z-index:-1;
+                top:0;
+                left:0;
+             }
+             .appLink {
+                position:relative;
+                overflow:hidden;
+            }
