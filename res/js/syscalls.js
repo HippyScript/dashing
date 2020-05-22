@@ -192,8 +192,8 @@ function populate_remove_dialog() {
     $("#appRemoveMenu").empty();
     for (key of Object.keys(app_menu)) {
         $("#appRemoveMenu").append(
-            "<li>\n<a href='#' id='remove-" + key + "''>\n" +
-            "<img src='./res/apps/" + app_menu[key]["icon"] + "' width='17px' />" + key + "</a>\n</li>");
+            "<li class='m-2'>\n<a href='#' id='remove-" + key + "''>\n" +
+            "<img src='./res/apps/" + app_menu[key]["icon"] + "' width='25px' /> " + key + "</a>\n</li>");
     }
     $(document).on("click", "#appRemoveMenu li a", function(){$("#selectedApp").text($(this).text());});
 }

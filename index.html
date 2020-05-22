@@ -4,60 +4,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="res/css/main.css">
         <title>Dashing</title>
-        <style type="text/css">
-            .floating-menu{
-                border-radius: 5px;
-                width: auto;
-                z-index:999;
-                padding-top:5px;
-                padding-bottom:5px;
-                left:0;
-                position:fixed;
-                display:inline-block;
-                top:50%;
-                box-shadow: 5px 5px 5px #ddd;
-                transform:translateY(-50%);
-            }
-
-            .main-menu {
-                margin:0;
-                padding-left:0;
-                list-style:none;
-            }
-
-            .main-menu li a {
-                display:block;
-                padding:10px;
-                color:#fff;
-                border-radius:5px;
-                position:relative;
-                -webkit-transition:none;
-                -o-transition:none;
-                transition:none;
-            }
-
-            .main-menu li a:hover {
-                background:rgba(244,244,244,.3);
-                text-decoration: none;
-            }
-
-            .menu-bg {
-                position:absolute;
-                background-color: rgb(100, 100, 100);
-                width:100%;
-                height:100%;
-                border-radius:5px;
-                z-index:-1;
-                top:0;
-                left:0;
-             }
-             .appLink {
-                position:relative;
-                overflow:hidden;
-            }
-
-        </style>
     </head>
     <body>
         <nav class="floating-menu">
@@ -75,10 +23,11 @@
                 <!-- Mounted Drives Card -->
                 <div class="card m-2">
                     <div class="card-body p-0">
-                        <h3 class="card-title card-header">
+                        <h3 class="card-title card-header" id="MountedDisk">
                             <img class="img-fluid mr-4 mt-0" src="./res/feather/hard-drive.svg" alt="Disks">
                             Mounted Disks
                         </h3>
+                        <div id="MountedDiskContents">
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Filter</span>
@@ -88,15 +37,17 @@
                         <ul class="list-group list-group-horizontal flex-d flex-wrap" id="MountList">
 
                         </ul>
+                        </div>
                     </div>
                 </div>
                 <!-- Samba Card -->
                 <div class="card m-2">
                     <div class="card-body p-0">
-                        <h3 class="cart-title card-header">
+                        <h3 class="cart-title card-header" id="Samba">
                             <img class="img-fluid mr-4 mt-0" src="./res/feather/folder.svg" alt="SMB">
                             Samba Connections
                         </h3>
+                        <div id="SambaContents">
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Filter</span>
@@ -106,15 +57,17 @@
                         <ul class="list-group list-group-horizontal flex-d flex-wrap" id="SMBList">
 
                         </ul>
+                        </div>
                     </div>
                 </div>
                 <!-- Ports Card -->
                 <div class="card m-2">
                     <div class="card-body p-0">
-                        <h3 class="cart-title card-header">
+                        <h3 class="cart-title card-header" id="Ports">
                             <img class="img-fluid mr-4 mt-0" src="./res/feather/phone-incoming.svg" alt="Ports">
                             Open TCP Ports
                         </h3>
+                        <div id="PortsContents">
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Filter</span>
@@ -124,16 +77,18 @@
                         <ul class="list-group list-group-horizontal flex-d flex-wrap" id="PortList">
 
                         </ul>
+                        </div>
                     </div>
                 </div>
             </div>
                 <div class="col-3">
                     <div class="card m-2">
                     <div class="card-body p-0">
-                        <h5 class="cart-title card-header m-0">
+                        <h5 class="cart-title card-header m-0" id="Connection">
                             <img class="img-fluid mr-4 mt-0" src="./res/feather/globe.svg" alt="Ports">
                             Connection
                         </h5>
+                        <div id="ConnectionContents">
                         <ul class="list-group list-group-horizontal flex-d flex-wrap" id="PortList">
                             <h6 class="ml-2 mt-2">Public IP</h6>
                             <div class='text-info m-2' id="PublicIP"></div>
@@ -141,17 +96,20 @@
                             <h6 class="ml-2 mt-2">Ping to Google DNS</h6>
                             <div class='text-info m-2' id="GooglePing"></div>
                         </ul>
+                        </div>
                     </div>
                     </div>
                     <div class="card m-2" id="DockerCard">
                     <div class="card-body p-0">
-                        <h5 class="cart-title card-header m-0">
+                        <h5 class="cart-title card-header m-0" id="Docker">
                             <img class="img-fluid mr-4 mt-0" src="./res/feather/box.svg" alt="Docker">
                             Docker
                         </h5>
+                        <div id="DockerContents">
                         <ul class="list-group list-group-horizontal flex-d flex-wrap" id="DockerList">
                             Loading container list...
                         </ul>
+                        </div>
                     </div>
                     </div>
 
@@ -222,26 +180,5 @@
         <!-- filterevents.js is what allows filtering of each card via the text box at the top -->
         <script src="./res/js/filterevents.js"></script>
         <script src="./res/js/syscalls.js"></script>
-        <script type="application/javascript">
-            $(document).ready(function(){
-                get_app_menu();
-                get_mounts();
-                get_smb_connections();
-                get_open_ports();
-                get_public_ip();
-                get_google_ping();
-                get_docker_containers();
-                setInterval(get_mounts, 8000);
-                setInterval(get_smb_connections, 8000);
-                setInterval(get_open_ports, 8000);
-                setInterval(get_public_ip, 8000);
-                setInterval(get_google_ping, 8000);   
-                setInterval(get_docker_containers, 8000);
-
-                $("#submitAdd").click ( function(event){
-                    event.preventDefault();
-                    add_app();} );
-                });
-                $("#submitRemove").click( function (event){remove_app();});
-        </script>
+        <script src="./res/js/main.js"></script>
     </body>
