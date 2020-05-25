@@ -196,8 +196,9 @@ function populate_menu() {
     $(document).on("mouseenter", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle(900);});
     $(document).on("mouseleave", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle();});
     $(document).on("click", ".main-menu li .deleteButton", function(){
-        remove_app($(this).attr("id").replace("delete-", ""));
-
+        if(confirm("Remove " + $(this).attr("id").replace("delete-", "") + "?")) {
+            remove_app($(this).attr("id").replace("delete-", ""));
+        }
     });
 }
 
