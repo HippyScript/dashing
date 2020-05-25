@@ -59,3 +59,11 @@
                 position:relative;
                 overflow:hidden;
             }
+            .deleteButton {
+                height: 14px;
+                width: 14px;
+                cursor: pointer;
+                margin-left: 35px; 
+                margin-top: -35px; 
+                display: none;
+            }

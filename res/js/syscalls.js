@@ -188,24 +188,17 @@ function get_app_menu(){
 
 function populate_menu() {
     for (key of Object.keys(app_menu)) {
-        $(".main-menu").append("            <li data-toggle='tooltip' title='" + key + "' id='" + key + "'>\n<a href='" + app_menu[key]["url"] + "' class='appLink'>" + 
-                                            "<img class='img-fluid' src='./res/apps/" + app_menu[key]["icon"] + 
-                                            "' alt='ICON' height='40' width='40'><br></a>\n</li>");
+        $(".main-menu").append("            <li data-toggle='tooltip' class='m-2' style='display: block; height: 40px; width: 40px; background-position: center center; background-size: 40px 40px; background-image: url(res/apps/" + app_menu[key]["icon"] + ");' title='" + key + "' id='" + key + "'>\n<a href='" + app_menu[key]["url"] + "' class='appLink'>" + 
+                                            "<br></a>\n<img class='deleteButton' id='delete-" + key + "' " +
+                                            "src='res/feather/trash-2.svg' class='deleteButton' data-toggle='tooltip' data-placement='top'" +
+                                            " title='Remove " + key + "'' alt='-'>\n" + "</li>");
     }
+    $(document).on("mouseenter", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle(900);});
+    $(document).on("mouseleave", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle();});
+    $(document).on("click", ".main-menu li .deleteButton", function(){
+        remove_app($(this).attr("id").replace("delete-", ""));
 
-    $(".main-menu").append("            <li data-toggle='tooltip' title='Remove app' style='width: 40px; margin: auto;'>\n" +
-                           "            <a href='#' onclick='populate_remove_dialog();' class='appLink' id='RemoveApp' data-toggle='modal' data-target='#removeAppDialog'><h3>-</h3></a>\n" +
-                           "             </li>");
-}
-
-function populate_remove_dialog() {
-    $("#appRemoveMenu").empty();
-    for (key of Object.keys(app_menu)) {
-        $("#appRemoveMenu").append(
-            "<li class='m-2'>\n<a href='#' id='remove-" + key + "''>\n" +
-            "<img src='./res/apps/" + app_menu[key]["icon"] + "' width='25px' /> " + key + "</a>\n</li>");
-    }
-    $(document).on("click", "#appRemoveMenu li a", function(){$("#selectedApp").text($(this).text());});
+    });
 }
 
 function add_app() {
@@ -236,11 +229,10 @@ function add_app() {
         });
     }
 
-function remove_app(){
+function remove_app(appName){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'remove_app', app_name: $("#selectedApp").text().trim() }, function(data) {app_menu = data;})
+    $.get('./res/php/syscalls.php', { fname: 'remove_app', app_name: appName }, function(data) {app_menu = data;})
       .done(function(msg){ 
-        $("#removeAppDialog").modal("hide");
         $(".main-menu").empty()
         $(".main-menu").append("            <li data-toggle='tooltip' title='Add app' style='width: 40px; margin: auto;'>\n" +
                             "   <a href='#' class='appLink' id='AddApp' data-toggle='modal' data-target='#addAppDialog'><h3>+</h3></a>\n" +
