@@ -1,4 +1,5 @@
 poll_interval = 8000 // Edit this (in milliseconds) to set interval between updates
+endpoint = "http://192.168.1.2:16016/res/php/syscalls.php";    // Endpoint on the server we're monitoring
            
 $(document).ready(function(){
     get_app_menu();

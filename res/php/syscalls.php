@@ -46,6 +46,9 @@
 
         function get_google_ping() : string {
             $result = shell_exec("ping -c 1 8.8.8.8");
+            if (strpos($result, "100% packet loss") !== FALSE) {
+                return "timed out";
+            }
             $result = substr($result, strpos($result, "time=") + 5, strlen($result) - strpos($result, "time="));
             $result = substr($result, 0, strpos($result, "ms") + 2);
             return $result;

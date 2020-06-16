@@ -31,7 +31,7 @@ function get_badge(docker_item){
 // Gets mounted volumes, calls display_mounts() when server sends response
 function get_mounts() {
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_mounts' }, function(data) {mount_results = data;})
+    $.get(endpoint, { fname: 'get_mounts' }, function(data) {mount_results = data;})
       .done(function(msg){ 
         mount_results = msg;
         display_mounts();
@@ -48,6 +48,7 @@ function display_mounts() {
             continue;
         }
         
+        percent_as_int = mount_results[key][4].substr(0, mount_results[key][4].length - 1)
         $("#MountList").append(li_open + 
                                 "  <h5 class='text-muted'>" + mount_results[key][0] + "</h5>\n" +
                                 "  <div>Mounted at <br>\n<a href='file:////" + mount_results[key][5] + 
@@ -55,8 +56,8 @@ function display_mounts() {
                                 "</a></div>\n" + "<div>" + mount_results[key][3] + "B of " + mount_results[key][1] + 
                                 "B free<br>" + 
                                 "<div class='progress'>\n" + 
-                                "<div class='progress-bar progress-bar-striped bg-secondary' role='progressbar' aria-valuenow='" + mount_results[key][4] + 
-                                "' aria-valuemin='0' aria-valuemax='100'>" + mount_results[key][4] + "</div></div>\n" +
+                                "<div class='progress-bar progress-bar-striped bg-secondary' role='progressbar' aria-valuenow='" + percent_as_int + 
+                                "' aria-valuemin='0' aria-valuemax='100' style='width: " + mount_results[key][4] + ";'>" + mount_results[key][4] + "</div></div>\n" +
                                 "  </li>\n");
     }
     
@@ -66,7 +67,7 @@ function display_mounts() {
 // Gets smb connections, calls display_smb() when server sends response
 function get_smb_connections(){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_smb_connections' }, function(data) {smb_results = data;})
+    $.get(endpoint, { fname: 'get_smb_connections' }, function(data) {smb_results = data;})
       .done(function(msg){ 
         smb_results = msg;
         display_smb();
@@ -91,7 +92,7 @@ function display_smb() {
 // Gets open TCP ports, calls display_ports() when server sends response
 function get_open_ports(){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_open_ports' }, function(data) {port_results = data;})
+    $.get(endpoint, { fname: 'get_open_ports' }, function(data) {port_results = data;})
       .done(function(msg){ 
         port_results = msg;
         display_open_ports();
@@ -116,7 +117,7 @@ function display_open_ports() {
 // Gets public-facing IP, calls display_ip() when server sends response
 function get_public_ip(){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_public_ip' }, function(data) {ip_results = data;})
+    $.get(endpoint, { fname: 'get_public_ip' }, function(data) {ip_results = data;})
       .done(function(msg){ 
         ip_results = msg;
         display_public_ip();
@@ -130,7 +131,7 @@ function display_public_ip(){
 // Gets time of ping to 8.8.8.8, calls display_ping() when server sends response
 function get_google_ping(){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_google_ping' }, function(data) {ping_results = data;})
+    $.get(endpoint, { fname: 'get_google_ping' }, function(data) {ping_results = data;})
       .done(function(msg){ 
         ping_results = msg;
         display_google_ping();
@@ -145,7 +146,7 @@ function display_google_ping(){
 // Gets list of docker containers, calls display_docker_containers() when server sends response
 function get_docker_containers(){
     var result;
-    $.get('./res/php/syscalls.php', { fname: 'get_docker_containers' }, function(data) {docker_results = data;})
+    $.get(endpoint, { fname: 'get_docker_containers' }, function(data) {docker_results = data;})
       .done(function(msg){ 
         docker_results = msg;
         display_docker_containers();
