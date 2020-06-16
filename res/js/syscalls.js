@@ -194,8 +194,16 @@ function populate_menu() {
                                             "src='res/feather/trash-2.svg' class='deleteButton' data-toggle='tooltip' data-placement='top'" +
                                             " title='Remove " + key + "'' alt='-'>\n" + "</li>");
     }
-    $(document).on("mouseenter", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle(900);});
-    $(document).on("mouseleave", ".main-menu li", function(){$("#delete-" + $(this).attr("id")).toggle();});
+    $(document).on("mouseenter", ".main-menu li", function(){
+        $(".main-menu li").stop();
+        $(".main-menu li .deleteButton").hide();
+        $("#delete-" + $(this).attr("id")).toggle(500);
+    });
+    $(document).on("mouseleave", ".main-menu li", function(){
+        $(".main-menu li").stop();
+        $(".main-menu li .deleteButton").hide();
+        //$("#delete-" + $(this).attr("id")).toggle();
+    });
     $(document).on("click", ".main-menu li .deleteButton", function(){
         if(confirm("Remove " + $(this).attr("id").replace("delete-", "") + "?")) {
             remove_app($(this).attr("id").replace("delete-", ""));
